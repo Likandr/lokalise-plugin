@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
 	..
-        classpath  'com.likandr:lokalise:1.0'
+        classpath  'com.github.likandr:lokalise-plugin:1.3'
 	..
     }
 }
@@ -19,7 +19,7 @@ buildscript {
 ```groovy
 apply plugin: 'com.android.application'
 ..
-apply plugin: 'lokalise'
+apply plugin: 'com.likandr.lokalise'
 ..
 android {
     ..
