@@ -1,8 +1,9 @@
-## Pages Android gradle plugin for refresh localisation strings using lokalise.co
+## Android gradle plugin for refresh localisation strings using lokalise.co
 This is a gradle plugin for android. Refresh (upload and download) localization files using lokalise.co
 
 ## Use guide:
-```///gradle project lvl:
+### in gradle, project level:
+```groovy
 buildscript {
     repositories {
         ..
@@ -13,7 +14,9 @@ buildscript {
 	..
     }
 }
-///gradle app lvl:
+```
+### in gradle, app level:
+```groovy
 apply plugin: 'com.android.application'
 ..
 apply plugin: 'lokalise'
