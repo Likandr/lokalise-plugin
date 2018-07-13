@@ -26,8 +26,8 @@ dependencies {
 }
 //it important and should be specified id(project) and token(api with r/w the access rights)
 lokalise {
-    id "346194865b3caa7e85d8b1.25144699"
-    token "55f109a3843351116255b79dc046b7a02fd38fdb"
+    id "XXXXXXXXXXXXXXXXXXXXXX.XXXXXXXX"
+    token "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 }
 
 //if need autoupdate strings before build uncomment the following line[1]: 
