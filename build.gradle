@@ -16,7 +16,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group 'com.github.likandr'
-version '1.0'
+version '1.3'
 
 sourceCompatibility = 1.8
 
@@ -43,7 +43,7 @@ uploadArchives {
 }
 
 pluginBundle {
-    website = 'https://github.com/'
+    website = 'https://likandr.github.io/lokalise-plugin/'
     vcsUrl = 'https://github.com/Likandr/lokalise-plugin'
     description = 'This is a gradle plugin for android. Refresh (upload and download) localization files using lokalise.co'
     tags = ['android', 'lokalise.co']
@@ -58,6 +58,6 @@ pluginBundle {
     mavenCoordinates {
         groupId = "com.github.likandr"
         artifactId = "lokalise-plugin"
-        version = "1.0"
+        version = "1.3"
     }
 }
