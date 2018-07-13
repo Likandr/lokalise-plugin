@@ -41,4 +41,4 @@ P.s. List of available manipulations is in the gradle folder lokalise.
 
 P.p.s. The plugin itself recognizes the default language of the project from lokalise.
 
-> [1]	replace=0(when unloading) --- replace existing translations of the keys imported - disabled. But when downloading transfers will be overwritten.
+> [1]	run with param `replace=0`(when uploading) --- replace existing translations of the keys imported - disabled. But when downloading transfers will be overwritten.
