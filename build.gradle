@@ -46,7 +46,7 @@ pluginBundle {
     website = 'https://likandr.github.io/lokalise-plugin/'
     vcsUrl = 'https://github.com/Likandr/lokalise-plugin'
     description = 'This is a gradle plugin for android. Refresh (upload and download) localization files using lokalise.co'
-    tags = ['android', 'lokalise.co']
+    tags = ['android', 'lokalise']
 
     plugins {
         LokalisePlugin {
