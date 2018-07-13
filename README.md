@@ -1,37 +1,40 @@
-## Welcome to GitHub Pages
+## Pages Android gradle plugin for refresh localisation strings using lokalise.co
+This is a gradle plugin for android. Refresh (upload and download) localization files using lokalise.co
 
-You can use the [editor on GitHub](https://github.com/Likandr/lokalise-plugin/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Use guide:
+```///gradle project lvl:
+buildscript {
+    repositories {
+        ..
+    }
+    dependencies {
+	..
+        classpath  'com.likandr:lokalise:1.0'
+	..
+    }
+}
+///gradle app lvl:
+apply plugin: 'com.android.application'
+..
+apply plugin: 'lokalise'
+..
+android {
+    ..
+}
+dependencies {
+    ..
+}
+//it important and should be specified id(project) and token(api with r/w the access rights)
+lokalise {
+    id "346194865b3caa7e85d8b1.25144699"
+    token "55f109a3843351116255b79dc046b7a02fd38fdb"
+}
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+//if need autoupdate strings before build uncomment the following line[1]: 
+//preBuild.dependsOn "refreshStrings"
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+P.s. List of available manipulations is in the gradle folder lokalise
+//P.p.s. The plugin itself recognizes the default language of the project from lokalise
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Likandr/lokalise-plugin/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+[1]	replace=0(when unloading) --- replace existing translations of the keys imported - disabled. But when downloading transfers will be overwritten.
