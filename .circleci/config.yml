@@ -56,12 +56,12 @@ jobs:
             command: |
               curl -i -H "https://api.lokalise.co/api/project/export" \
                 -H "Accept: application/octet-stream" \
-                -F "tag_name:v1.3" \
-                -F "target_commitish:master" \
-                -F "name:v1.3" \
-                -F "body=Description of the release" \
-                -F "draft=false" \
-                -F "prerelease=false" \
+                -d "tag_name: v1.3" \
+                -d "target_commitish: master" \
+                -d "name: v1.3" \
+                -d "body: Description of the release" \
+                -d "draft: false" \
+                -d "prerelease: false" \
                 ${GITHUB_TOKEN}
 #        - deploy:
 #            name: conditionally run a deploy job
