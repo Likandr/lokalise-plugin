@@ -21,9 +21,9 @@ jobs:
       - run: gradle dependencies
           ./gradlew login publishPlugins
           ./gradlew uploadArchives
-#        - store_artifacts:
-#          paths:
-#            - repo
+        - store_artifacts:
+          paths:
+            - repo/
 
       - save_cache:
           paths:
