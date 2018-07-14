@@ -19,8 +19,6 @@ jobs:
           - v1-dependencies-
 
       - run: gradle dependencies
-#          ./gradlew login publishPlugins
-#          ./gradlew uploadArchives
         - store_artifacts:
           paths:
             - repo/
@@ -32,14 +30,3 @@ jobs:
 
       # run tests!
       - run: gradle test
-
-#      - run:
-#        ./gradlew login publishPlugins
-#        ./gradlew uploadArchives
-#      - store_artifacts:
-#          paths:
-#            - repo/
-
-
-
-
