@@ -95,7 +95,7 @@ pluginBundle {
 def distributionsCopySpec = copySpec {
     into("$name-$version") {
         into('lib') {
-            from 'artifacts'
+            from 'distribution'
             include '*.jar' //copy the fat jar created by bootRepackage
         }
         from 'README.md'
