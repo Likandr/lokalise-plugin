@@ -28,8 +28,7 @@ jobs:
       # run tests!
       - run: gradle test
 
-
-      -build:
+      - build:
         script:
           - ./gradlew login publishPlugins
         artifacts:
