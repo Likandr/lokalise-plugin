@@ -54,15 +54,14 @@ jobs:
         - run:
             name: "Publish Release on GitHub"
             command: |
-              curl -i -H "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases" \
+              curl -i -H "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases?access_token=${GITHUB_TOKEN}" \
                 -H "Accept: application/octet-stream" \
                 -d "tag_name: v1.3" \
                 -d "target_commitish: master" \
                 -d "name: v1.3" \
                 -d "body: Description of the release" \
                 -d "draft: false" \
-                -d "prerelease: false" \
-                ${GITHUB_TOKEN}
+                -d "prerelease: false"
 #        - deploy:
 #            name: conditionally run a deploy job
 #            command: |
