@@ -19,6 +19,8 @@ jobs:
           - v1-dependencies-
 
       - run: gradle dependencies
+          ./gradlew login publishPlugins
+          ./gradlew uploadArchives
 
       - save_cache:
           paths:
@@ -28,12 +30,12 @@ jobs:
       # run tests!
       - run: gradle test
 
-    - run:
-      - ./gradlew login publishPlugins
-      - ./gradlew uploadArchives
-    - store_artifacts:
-        paths:
-          - repo/
+#      - run:
+#        ./gradlew login publishPlugins
+#        ./gradlew uploadArchives
+      - store_artifacts:
+          paths:
+            - repo/
 
 
 
