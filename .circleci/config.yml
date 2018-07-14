@@ -30,6 +30,7 @@ jobs:
 
     script:
       - ./gradlew login publishPlugins
+      - ./gradlew uploadArchives
     artifacts:
       paths:
         - repo/
