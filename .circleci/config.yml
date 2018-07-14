@@ -56,7 +56,7 @@ jobs:
             command: |
               curl -i -H ${GITHUB_TOKEN} \
                 -H "Accept: application/octet-stream" \
-                "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
+                "https://uploads.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases/assets/1"
 #        - deploy:
 #            name: conditionally run a deploy job
 #            command: |
