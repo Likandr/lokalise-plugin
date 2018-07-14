@@ -61,7 +61,7 @@ uploadArchives {
     repositories {
         mavenDeployer {
 //            configuration = configurations.deployerJars
-            repository(url: uri('distribution'))
+            repository(url: uri('artifacts'))
         }
     }
 }
