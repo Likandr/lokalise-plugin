@@ -63,7 +63,7 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - publish-github-release
+      - publish-github-release:
           requires:
               - build
 
