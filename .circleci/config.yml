@@ -26,10 +26,6 @@ dependencies:
       - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
       - chmod +x ./gradlew
 
-#general:
-#    artifacts:
-#        - /home/ubuntu/your-app-name/app/build/outputs/apk/
-
 jobs:
   build:
     docker:
@@ -41,9 +37,6 @@ jobs:
         - checkout
 #        - restore_cache:
 #              key: jars-{{ checksum “build.gradle” }}-{{ checksum “app/build.gradle” }}
-#        - run:
-#              name: chmod permissions
-#              command: chmod +x ./gradlew
         - run:
             name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
             command: chmod +x ./gradlew
@@ -58,7 +51,7 @@ jobs:
         - image: cibuilds/github:0.10
       steps:
         - attach_workspace:
-            at: ./artifacts
+            at: ./build/distributions
         - run:
             name: "Publish Release on GitHub"
             command: |
