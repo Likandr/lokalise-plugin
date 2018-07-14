@@ -28,11 +28,16 @@ jobs:
       # run tests!
       - run: gradle test
 
-      - script:
-          - ./gradlew login publishPlugins
-      - artifacts:
-          paths:
-          - repo/
+      - build
+
+
+build:
+  stage: build
+  script:
+    - ./gradlew login publishPlugins
+  artifacts:
+    paths:
+      - repo/
 
 
 
