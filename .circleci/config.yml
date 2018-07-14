@@ -67,7 +67,12 @@ workflows:
       - build
       - publish-github-release:
           requires:
-              - build
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
 
 #jobs:
 #  build:
