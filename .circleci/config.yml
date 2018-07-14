@@ -47,7 +47,7 @@ jobs:
              path: ./outputs
   publish-github-release:
       docker:
-        - image: cibuilds/github:0.10
+        - image: circleci/golang:1.8
       steps:
         - attach_workspace:
             at: ./outputs
@@ -57,9 +57,9 @@ jobs:
         - run:
             name: "Publish Release on GitHub"
             command: |
-              VERSION=v1.3
+            go get github.com/tcnksm/ghr
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-              -delete ${VERSION} ./outputs/
+              -delete v1.3 ./outputs/
 
 workflows:
   version: 2
