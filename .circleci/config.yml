@@ -47,19 +47,16 @@ jobs:
              path: ./artifacts
   publish-github-release:
       docker:
-        - image: circleci/golang:1.8
+        - image: cibuilds/github:0.10
       steps:
         - attach_workspace:
             at: ./artifacts
         - run:
-            name: Save SHA
-            command: echo $CIRCLE_SHA1 > .source-sha
-        - run:
             name: "Publish Release on GitHub"
             command: |
-            go get github.com/tcnksm/ghr
+              VERSION=$(my-binary --version)
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-              -delete v1.3 ./artifacts/
+              -delete ${VERSION} ./artifacts/
 workflows:
   version: 2
   build_and_test:
