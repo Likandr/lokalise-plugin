@@ -54,9 +54,18 @@ jobs:
         - run:
             name: "Publish Release on GitHub"
             command: |
-              curl -i -H ${GITHUB_TOKEN}
-                -H "Accept: application/octet-stream"
-                "https://uploads.github.com/repos/Likandr/lokalise-plugin/releases/1/assets"
+#              curl -i -H ${GITHUB_TOKEN} \
+#                -H "Accept: application/octet-stream" \
+#                "https://uploads.github.com/repos/Likandr/lokalise-plugin/releases"
+              curl -i -H "https://api.lokalise.co/api/project/export" \
+                -H "Accept: application/octet-stream" \
+                -d "tag_name:v1.3" \
+                -d "target_commitish:master" \
+                -d "name:v1.3" \
+                -d "body=Description of the release" \
+                -d "draft=false" \
+                -d "prerelease=false" \
+                ${GITHUB_TOKEN}
 #        - deploy:
 #            name: conditionally run a deploy job
 #            command: |
