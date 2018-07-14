@@ -5,7 +5,7 @@ jobs:
         - image: circleci/openjdk:8-jdk
       steps:
         - checkout
-        - run: ./gradlew login publishPlugins
+        - run: ./gradlew uploadArchives
   upload-artifact:
     docker:
       - image: circleci/openjdk:8-jdk
