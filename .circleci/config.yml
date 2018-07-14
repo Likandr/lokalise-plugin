@@ -54,8 +54,9 @@ jobs:
         - run:
             name: "Publish Release on GitHub"
             command: |
+              VERSION=1.3
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-              -delete ${VERSION} ./artifacts/
+              -delete ${VERSION} ./outputs/
 
 workflows:
   version: 2
