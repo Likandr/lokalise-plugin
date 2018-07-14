@@ -44,9 +44,9 @@ jobs:
 #        - run:
 #              name: chmod permissions
 #              command: chmod +x ./gradlew
-#        - run:
-#            name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-#            command: chmod +x ./gradlew
+        - run:
+            name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+            command: chmod +x ./gradlew
         - run:
             name: Upload Archives
             command: ./gradlew uploadArchives
