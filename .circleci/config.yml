@@ -1,4 +1,6 @@
 version: 2
+image: openjdk:8-jdk
+
 variables:
   ANDROID_COMPILE_SDK: "25"
   ANDROID_BUILD_TOOLS: "27.0.3"
@@ -22,8 +24,6 @@ before_script:
 jobs:
   build:
       working_directory: ~/code
-      docker:
-        - image: circleci/android:api-25-alpha
       environment:
         JVM_OPTS: -Xmx3200m
       steps:
