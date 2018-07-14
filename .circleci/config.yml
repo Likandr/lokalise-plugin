@@ -65,7 +65,7 @@ workflows:
       - build
       - publish-github-release
           requires:
-            - build
+              - build
 
 #jobs:
 #  build:
