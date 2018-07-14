@@ -1,49 +1,23 @@
 version: 2
 jobs:
-  build1:
+  upload-artifact:
     docker:
       - image: circleci/openjdk:8-jdk
-
     working_directory: ~/repo
-
-    environment:
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          - v1-dependencies-
-
-      - run: gradle dependencies
-
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # run tests!
-      - run: gradle test
-
-#    script:
-#      - ./gradlew login publishPlugins
-#      - ./gradlew uploadArchives
-#    artifacts:
-#      paths:
-#        - repo/
-  build2:
-    docker:
-          - image: circleci/openjdk:8-jdk
-
-        working_directory: ~/repo
-
-        environment:
-          JVM_OPTS: -Xmx3200m
-          TERM: dumb
-    steps:
-      - store_artifacts: # See circleci.com/docs/2.0/artifacts/ for more details.
-        path: /tmp/artifact-1
-        destination: artifact-file
+      - run: mvn dependency:go-offline
+      - run:
+          name: maven build
+          command: |
+            mvn clean install
+      - run:
+          name: Install jFrog CLI
+          command: curl -fL https://getcli.jfrog.io | sh
+      - run:
+          name: Push to Artifactory
+          command: |
+            ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_APIKEY --interactive=false
+            ./jfrog rt u <path/to/artifact> <artifactory_repo_name> --build-name=<name_you_give_to_build> --build-number=$CIRCLE_BUILD_NUM
+            ./jfrog rt bce <name_you_give_to_build> $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
+            ./jfrog rt bp <name_you_give_to_build> $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
