@@ -52,6 +52,9 @@ jobs:
         - attach_workspace:
             at: ./outputs
         - run:
+            name: Save SHA
+            command: echo $CIRCLE_SHA1 > .source-sha
+        - run:
             name: "Publish Release on GitHub"
             command: |
               VERSION=1.3
