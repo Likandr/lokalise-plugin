@@ -41,18 +41,18 @@ jobs:
         - checkout
         - restore_cache:
               key: jars-{{ checksum “build.gradle” }}-{{ checksum “app/build.gradle” }}
+#        - run:
+#              name: chmod permissions
+#              command: chmod +x ./gradlew
         - run:
-              name: chmod permissions
-              command: chmod +x ./gradlew
-                  - run:
-                      name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-                      command: sudo chmod +x ./gradlew
-                  - run:
-                      name: Upload Archives
-                      command: ./gradlew uploadArchives
-                  - store_artifacts:
-                      path: /tmp/artifact-1
-                      destination: artifact-file
+            name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+            command: sudo chmod +x ./gradlew
+        - run:
+            name: Upload Archives
+            command: ./gradlew uploadArchives
+        - store_artifacts:
+             path: /tmp/artifact-1
+             destination: artifact-file
 
 workflows:
   version: 2
