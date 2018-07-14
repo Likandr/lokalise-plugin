@@ -10,6 +10,10 @@ machine:
     environment:
         ANDROID_HOME: /usr/local/android-sdk-linux
 
+general:
+    artifacts:
+        - /outputs/
+
 dependencies:
     pre:
       - apt-get --quiet update --yes
