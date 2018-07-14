@@ -29,8 +29,7 @@ jobs:
       - run: gradle test
 
 
-      build:
-        stage: build
+      -build:
         script:
           - ./gradlew login publishPlugins
         artifacts:
