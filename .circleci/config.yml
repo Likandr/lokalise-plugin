@@ -10,6 +10,7 @@ machine:
     environment:
         ANDROID_HOME: /usr/local/android-sdk-linux
 
+
 jobs:
     build:
       working_directory: ~/code
@@ -27,7 +28,7 @@ steps:
 
                   - run:
                      name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-                     command: chmod +x ./gradlew
+                     command: sudo chmod +x ./gradlew
                   - run:
                       name: Upload Archives
                       command: ./gradlew uploadArchives
