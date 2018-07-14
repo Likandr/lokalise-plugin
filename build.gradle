@@ -39,7 +39,7 @@ dependencies {
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: uri('circleci/repo'))
+            repository(url: uri('artifacts'))
         }
     }
 }
