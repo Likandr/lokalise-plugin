@@ -54,9 +54,6 @@ jobs:
         - run:
             name: "Publish Release on GitHub"
             command: |
-#              curl -i -H ${GITHUB_TOKEN} \
-#                -H "Accept: application/octet-stream" \
-#                "https://uploads.github.com/repos/Likandr/lokalise-plugin/releases"
               curl -i -H "https://api.lokalise.co/api/project/export" \
                 -H "Accept: application/octet-stream" \
                 -d "tag_name:v1.3" \
