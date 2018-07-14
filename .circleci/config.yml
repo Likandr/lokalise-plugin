@@ -49,7 +49,7 @@ jobs:
 #            command: chmod +x ./gradlew
         - run:
             name: Upload Archives
-            command: ./gradlew uploadArchives
+            command: uploadArchives
         - store_artifacts:
              path: /tmp/artifact-1
              destination: artifact-file
