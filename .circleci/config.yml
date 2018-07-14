@@ -47,7 +47,7 @@ jobs:
              path: ./build/distributions
   publish-github-release:
       docker:
-            - image: circleci/openjdk:8-jdk
+            - image: cibuilds/github:0.10
       steps:
         - attach_workspace:
             at: ./build/distributions
