@@ -46,6 +46,8 @@ jobs:
         - store_artifacts:
              path: ./build/distributions
   publish-github-release:
+      docker:
+            - image: circleci/openjdk:8-jdk
       steps:
         - attach_workspace:
             at: /build/distributions
@@ -55,6 +57,12 @@ jobs:
               curl -i -H ${GITHUB_TOKEN} \
                 -H "Accept: application/octet-stream" \
                 "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
+        - deploy:
+            name: conditionally run a deploy job
+            command: |
+                            curl -i -H ${GITHUB_TOKEN} \
+                                            -H "Accept: application/octet-stream" \
+                                            "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
 workflows:
   version: 2
   build_and_test:
