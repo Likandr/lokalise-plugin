@@ -46,7 +46,7 @@ jobs:
 #              command: chmod +x ./gradlew
         - run:
             name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-            command: sudo chmod +x ./gradlew
+            command: chmod +x ./gradlew
         - run:
             name: Upload Archives
             command: ./gradlew uploadArchives
