@@ -18,9 +18,9 @@ jobs:
           - v1-dependencies-{{ checksum "build.gradle" }}
           - v1-dependencies-
 
-      - run: gradle dependencies
+      - run: gradle dependencies uploadArchives
 #          ./gradlew login publishPlugins
-          ./gradlew uploadArchives
+#          ./gradlew uploadArchives
         - store_artifacts:
           paths:
             - repo/
