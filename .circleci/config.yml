@@ -1,4 +1,9 @@
 version: 2
+variables:
+  ANDROID_COMPILE_SDK: "25"
+  ANDROID_BUILD_TOOLS: "27.0.3"
+  ANDROID_SDK_TOOLS: "24.4.1"
+
 before_script:
   - apt-get --quiet update --yes
   - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
