@@ -54,7 +54,7 @@ jobs:
         - run:
             name: "Publish Release on GitHub"
             command: |
-              curl -i -H "https://api.lokalise.co/api/project/export" \
+              curl -i -H "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases" \
                 -H "Accept: application/octet-stream" \
                 -d "tag_name: v1.3" \
                 -d "target_commitish: master" \
