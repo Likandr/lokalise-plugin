@@ -5,7 +5,12 @@ jobs:
         - image: circleci/openjdk:8-jdk
       steps:
         - checkout
-        - run: ./gradlew uploadArchives
+        - run:
+           name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+           command: sudo chmod +x ./gradlew
+        - run:
+            name: Upload Archives
+            command: ./gradlew uploadArchives
 #  upload-artifact:
 #    docker:
 #      - image: circleci/openjdk:8-jdk
