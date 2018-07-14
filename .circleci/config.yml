@@ -44,8 +44,7 @@ jobs:
             name: Upload Archives
             command: ./gradlew uploadArchives
         - store_artifacts:
-             path: /artifacts
-             destination: artifacts
+             path: ./build/distributions
   publish-github-release:
       docker:
         - image: cibuilds/github:0.10
