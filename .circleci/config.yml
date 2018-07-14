@@ -59,7 +59,7 @@ jobs:
             command: |
             go get github.com/tcnksm/ghr
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-              -delete v1.3 ./outputs/
+              -delete v1.3 ./artifacts/
 workflows:
   version: 2
   build_and_test:
