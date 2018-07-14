@@ -10,32 +10,6 @@ machine:
     environment:
         ANDROID_HOME: /usr/local/android-sdk-linux
 
-
-jobs:
-    build:
-      working_directory: ~/code
-docker:
-    - image: circleci/android:api-25-alpha
-environment:
-    JVM_OPTS: -Xmx3200m
-steps:
-    - checkout
-    - restore_cache:
-          key: jars-{{ checksum “build.gradle” }}-{{ checksum “app/build.gradle” }}
-    - run:
-          name: chmod permissions
-          command: chmod +x ./gradlew
-                  - run:
-                     name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-                     command: sudo chmod +x ./gradlew
-                  - run:
-                      name: Upload Archives
-                      command: ./gradlew uploadArchives
-
-general:
-    artifacts:
-        - /home/ubuntu/your-app-name/app/build/outputs/apk/
-
 dependencies:
     pre:
       - apt-get --quiet update --yes
@@ -51,6 +25,34 @@ dependencies:
       - export ANDROID_HOME=$PWD/android-sdk-linux
       - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
       - chmod +x ./gradlew
+
+#general:
+#    artifacts:
+#        - /home/ubuntu/your-app-name/app/build/outputs/apk/
+
+jobs:
+  build:
+    docker:
+      - image: circleci/android:api-25-alpha
+    working_directory: ~/code
+    environment:
+        JVM_OPTS: -Xmx3200m
+    steps:
+        - checkout
+        - restore_cache:
+              key: jars-{{ checksum “build.gradle” }}-{{ checksum “app/build.gradle” }}
+        - run:
+              name: chmod permissions
+              command: chmod +x ./gradlew
+                  - run:
+                      name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+                      command: sudo chmod +x ./gradlew
+                  - run:
+                      name: Upload Archives
+                      command: ./gradlew uploadArchives
+                  - store_artifacts:
+                      path: /tmp/artifact-1
+                      destination: artifact-file
 
 workflows:
   version: 2
