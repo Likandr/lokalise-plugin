@@ -50,7 +50,7 @@ jobs:
         - image: circleci/golang:1.8
       steps:
         - attach_workspace:
-            at: ./outputs
+            at: ./artifacts
         - run:
             name: Save SHA
             command: echo $CIRCLE_SHA1 > .source-sha
