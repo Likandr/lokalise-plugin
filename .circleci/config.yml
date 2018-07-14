@@ -29,4 +29,14 @@ jobs:
       - run: gradle test
 
 
+      build:
+        stage: build
+        script:
+          - ./gradlew login publishPlugins
+        artifacts:
+          paths:
+          - app/build/outputs/
+
+
+
 
