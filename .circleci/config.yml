@@ -90,8 +90,6 @@ workflows:
             tags:
               only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
-          machine:
-            image: circleci/classic:latest
           requires:
             - build
           filters:
