@@ -17,7 +17,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
-    working_directory: /tmp
+#    working_directory: /tmp
     environment:
         JVM_OPTS: -Xmx3200m
     steps:
@@ -40,7 +40,7 @@ jobs:
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
-    working_directory: /tmp
+#    working_directory: /tmp
     environment:
         PROJECT_NAME: lokalise-plugin
 #        CIRCLE_ARTIFACTS: ${CIRCLE_WORKING_DIRECTORY}/out/
@@ -53,8 +53,8 @@ jobs:
 #          command: |
 #              echo 'export PATH=${CIRCLE_WORKING_DIRECTORY}/out/' >> $CIRCLE_ARTIFACTS
       - attach_workspace:
-          at: /tmp/artifacts
+          at: /artifacts
       - run:
           name: Publish Release on GitHub
           command: |
-              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /tmp/artifacts
+              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /artifacts
