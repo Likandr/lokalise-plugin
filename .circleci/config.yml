@@ -30,7 +30,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
-    working_directory: ~/code
+    working_directory: ~/tmp
     environment:
         JVM_OPTS: -Xmx3200m
     steps:
@@ -44,8 +44,9 @@ jobs:
             name: Upload Archives
             command: ./gradlew uploadArchives
         - store_artifacts:
-             path: ./build/distributions
+             path: ./out
   publish-github-release:
+    working_directory: ~/tmp
     docker:
       - image: cibuilds/github:0.10
     environment:
@@ -58,7 +59,7 @@ jobs:
       - run:
           name: Publish Release on GitHub
           command: |
-              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} home/circleci/code/build/distributions
+              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./out
 
 
 #              VERSION=$(my-binary --version)
