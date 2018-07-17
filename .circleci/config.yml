@@ -46,10 +46,10 @@ jobs:
         - store_artifacts:
              path: ./build/distributions
   publish-github-release:
+      docker:
+        - image: cibuilds/github:0.10
       machine:
-        node:
-          version: 6.2.0
-         environment:
+        environment:
             PROJECT_NAME: lokalise-plugin
             CIRCLE_ARTIFACTS: ./build/distributions
       dependencies:
