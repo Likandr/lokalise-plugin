@@ -45,14 +45,14 @@ jobs:
             command: ./gradlew uploadArchives
         - store_artifacts:
              path: ./build/distributions
-             destination: .${HOME}/out
+             destination: ./out
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
 #    working_directory: ~/code
     environment:
         PROJECT_NAME: lokalise-plugin
-        CIRCLE_ARTIFACTS: ${HOME}/out/
+        CIRCLE_ARTIFACTS: ./out/
         VERSION: lokalise-plugin-$CIRCLE_TAG
     steps:
 #      - run: get github.com/aktau/github-release
