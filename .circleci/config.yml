@@ -91,8 +91,8 @@ workflows:
       - publish-github-release:
           requires:
             - build
-            - go get github.com/aktau/github-release
-            - npm install github-release-notes -g
+#            - go get github.com/aktau/github-release
+#            - npm install github-release-notes -g
           tags:
             only: /^\d+\.\d+\.\d+$/
 
