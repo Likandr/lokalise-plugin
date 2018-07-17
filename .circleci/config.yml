@@ -33,9 +33,9 @@ jobs:
             name: Upload Archives
             command: ./gradlew uploadArchives
         - store_artifacts:
-            path: artifacts/com/github/likandr/lokalise-plugin
+            path: ./artifacts/com/github/likandr/lokalise-plugin
         - persist_to_workspace:
-            root: com/github/likandr
+            root: artifacts/com/github/likandr
             paths:
               - lokalise-plugin
         - store_artifacts:
