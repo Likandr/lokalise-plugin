@@ -49,7 +49,7 @@ jobs:
         - image: circleci/openjdk:8-jdk
       steps:
         - attach_workspace:
-              at: /lokalise-plugin
+              at: /build
         - run:
               name: Login
               command: ./gradlew login
