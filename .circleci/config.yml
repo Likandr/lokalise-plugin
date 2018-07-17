@@ -30,6 +30,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
+    working_directory: ~/code
     environment:
         JVM_OPTS: -Xmx3200m
     steps:
@@ -48,6 +49,7 @@ jobs:
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
+    working_directory: ~/code
     environment:
         PROJECT_NAME: lokalise-plugin
         CIRCLE_ARTIFACTS: ./build/distributions
