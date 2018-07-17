@@ -46,30 +46,50 @@ jobs:
         - store_artifacts:
              path: ./build/distributions
   publish-github-release:
-      docker:
-            - image: cibuilds/github:0.10
-      steps:
-        - attach_workspace:
-            at: ./build/distributions
-        - run:
-            name: "Publish Release on GitHub"
-            command: |
-              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-              -delete ${VERSION} ./build/distributions/
-#              curl -i -H "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases?access_token=${GITHUB_TOKEN}" \
-#                -H "Accept:application/octet-stream" \
-#                -d "tag_name:v1.3" \
-#                -d "target_commitish:master" \
-#                -d "name:v1.3" \
-#                -d "body:Description of the release" \
-#                -d "draft:false" \
-#                -d "prerelease:false"
-#        - deploy:
-#            name: conditionally run a deploy job
+      machine:
+        node:
+          version: 6.2.0
+         environment:
+            PROJECT_NAME: lokalise-plugin
+            CIRCLE_ARTIFACTS: ./build/distributions
+      dependencies:
+        pre:
+          - go get github.com/aktau/github-release
+          - npm install github-release-notes -g
+      deployment:
+        release:
+          tag: /v[0-9]+(\.[0-9]+)*/
+          commands:
+            - zip -r $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip dist/*
+            - git config user.name $CIRCLE_PROJECT_USERNAME
+            - gren --override --data-source=commits
+            - github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag $CIRCLE_TAG
+            --name $CIRCLE_PROJECT_REPONAME"."$CIRCLE_TAG"-build-"$CIRCLE_BUILD_NUM".zip"
+            --file $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip
+#      docker:
+#            - image: cibuilds/github:0.10
+#      steps:
+#        - attach_workspace:
+#            at: ./build/distributions
+#        - run:
+#            name: "Publish Release on GitHub"
 #            command: |
-#                            curl -i -H ${GITHUB_TOKEN} \
-#                                            -H "Accept: application/octet-stream" \
-#                                            "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
+#              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
+#              -delete ${VERSION} ./build/distributions/
+##              curl -i -H "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases?access_token=${GITHUB_TOKEN}" \
+##                -H "Accept:application/octet-stream" \
+##                -d "tag_name:v1.3" \
+##                -d "target_commitish:master" \
+##                -d "name:v1.3" \
+##                -d "body:Description of the release" \
+##                -d "draft:false" \
+##                -d "prerelease:false"
+##        - deploy:
+##            name: conditionally run a deploy job
+##            command: |
+##                            curl -i -H ${GITHUB_TOKEN} \
+##                                            -H "Accept: application/octet-stream" \
+##                                            "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
 workflows:
   version: 2
   build_and_test:
