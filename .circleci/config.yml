@@ -35,9 +35,10 @@ jobs:
         - store_artifacts:
             path: artifacts
         - persist_to_workspace:
-            root: artifacts
+            root: com/github/likandr/lokalise-plugin
             paths:
-              - .*
+              - 1.0
+              - *
         - store_artifacts:
              path: ./build/distributions
         - persist_to_workspace:
@@ -55,7 +56,7 @@ jobs:
 #              name: Chmod permissions
 #              command: chmod +x ./gradlew
         - attach_workspace:
-              at: /artifacts
+              at: /artifactscom/github/likandr/lokalise-plugin
         - run:
               name: Login
               command: ./gradlew login
