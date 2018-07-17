@@ -48,10 +48,9 @@ jobs:
   publish-github-release:
       docker:
         - image: cibuilds/github:0.10
-      machine:
-        environment:
-            PROJECT_NAME: lokalise-plugin
-            CIRCLE_ARTIFACTS: ./build/distributions
+      environment:
+          PROJECT_NAME: lokalise-plugin
+          CIRCLE_ARTIFACTS: ./build/distributions
       steps:
         - run:
           tag: /v[0-9]+(\.[0-9]+)*/
@@ -95,9 +94,6 @@ workflows:
             tags:
               only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
-          environment:
-              PROJECT_NAME: lokalise-plugin
-              CIRCLE_ARTIFACTS: ./build/distributions
           dependencies:
              pre:
                 - go get github.com/aktau/github-release
