@@ -1,30 +1,17 @@
-
-version: 2
-
-#variables:
-#  ANDROID_COMPILE_SDK: "25"
-#  ANDROID_BUILD_TOOLS: "27.0.3"
-#  ANDROID_SDK_TOOLS: "24.4.1"
-
-#machine:
-#    environment:
-#        ANDROID_HOME: /usr/local/android-sdk-linux
-
-#dependencies:
-#    pre:
-#      - apt-get --quiet update --yes
-#      - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
-#      - wget --quiet --output-document=android-sdk.tgz https://dl.google.com/android/android-sdk_r${ANDROID_SDK_TOOLS}-linux.tgz
-#      - tar --extract --gzip --file=android-sdk.tgz
-#      - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter android-${ANDROID_COMPILE_SDK}
-#      - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter platform-tools
-#      - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS}
-#      - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-android-m2repository
-#      - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-google-google_play_services
-#      - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-google-m2repository
-#      - export ANDROID_HOME=$PWD/android-sdk-linux
-#      - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
-#      - chmod +x ./gradlew
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+      - publish-github-release:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
 
 jobs:
   build:
@@ -70,88 +57,3 @@ jobs:
           name: Publish Release on GitHub
           command: |
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./project/out
-
-
-#              VERSION=$(my-binary --version)
-#          - zip -r $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip dist/*- git config user.name $CIRCLE_PROJECT_USERNAME- gren --override --data-source=commits- github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag $CIRCLE_TAG--name $CIRCLE_PROJECT_REPONAME"."$CIRCLE_TAG"-build-"$CIRCLE_BUILD_NUM".zip"--file $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip
-#      docker:
-#            - image: cibuilds/github:0.10
-#      steps:
-#        - attach_workspace:
-#            at: ./build/distributions
-#        - run:
-#            name: "Publish Release on GitHub"
-#            command: |
-#              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-#              -delete ${VERSION} ./build/distributions/
-##              curl -i -H "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases?access_token=${GITHUB_TOKEN}" \
-##                -H "Accept:application/octet-stream" \
-##                -d "tag_name:v1.3" \
-##                -d "target_commitish:master" \
-##                -d "name:v1.3" \
-##                -d "body:Description of the release" \
-##                -d "draft:false" \
-##                -d "prerelease:false"
-##        - deploy:
-##            name: conditionally run a deploy job
-##            command: |
-##                            curl -i -H ${GITHUB_TOKEN} \
-##                                            -H "Accept: application/octet-stream" \
-##                                            "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build:
-          filters:
-            tags:
-              only: /^\d+\.\d+\.\d+$/
-      - publish-github-release:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /^\d+\.\d+\.\d+$/
-
-#jobs:
-#  build:
-#      working_directory: ~/code
-#      environment:
-#        JVM_OPTS: -Xmx3200m
-#      steps:
-#        - checkout
-#        - run:
-#           name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-#           command: sudo chmod +x ./gradlew
-#        - run:
-#            name: Upload Archives
-#            command: ./gradlew uploadArchives
-##  upload-artifact:
-##    docker:
-##      - image: circleci/openjdk:8-jdk
-##    working_directory: ~/repo
-##    steps:
-##      - checkout
-##      - run: mvn dependency:go-offline
-##      - run:
-##          name: maven build
-##          command: |
-##            mvn clean install
-##      - run:
-##          name: Install jFrog CLI
-##          command: curl -fL https://getcli.jfrog.io | sh
-##      - run:
-##          name: Push to Artifactory
-##          command: |
-##            ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_APIKEY --interactive=false
-##            ./jfrog rt u <path/to/artifact> <artifactory_repo_name> --build-name=<name_you_give_to_build> --build-number=$CIRCLE_BUILD_NUM
-##            ./jfrog rt bce <name_you_give_to_build> $CIRCLE_BUILD_NUM  # collects all environment variables on the agent
-##            ./jfrog rt bp <name_you_give_to_build> $CIRCLE_BUILD_NUM  # attaches ^^ to the build in artifactory
-#
-#workflows:
-#  version: 2
-#  build_and_test:
-#    jobs:
-#      - build
-##      - upload-artifact
-
