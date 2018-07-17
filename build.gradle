@@ -99,9 +99,9 @@ def distributionsCopySpec = copySpec {
             include '*.jar' //copy the fat jar created by bootRepackage
         }
         from 'README.md'
-        into('bin') {
-            from 'bin' //custom start script based on startScripts task output
-        }
+//        into('bin') {
+//            from 'bin' //custom start script based on startScripts task output
+//        }
     }
 }
 
