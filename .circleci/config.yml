@@ -32,6 +32,8 @@ jobs:
         - run:
             name: Upload Archives
             command: ./gradlew uploadArchives
+        - store_artifacts:
+            path: ./artifacts
         - persist_to_workspace:
             root: artifacts
             paths:
