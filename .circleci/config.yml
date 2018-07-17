@@ -48,9 +48,9 @@ jobs:
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
-    environment:
-        PROJECT_NAME: lokalise-plugin
-        CIRCLE_ARTIFACTS: ./build/distributions
+#    environment:
+#        PROJECT_NAME: lokalise-plugin
+#        CIRCLE_ARTIFACTS: ./build/distributions
     steps:
       - run: go get github.com/aktau/github-release
       - run: npm install github-release-notes -g
@@ -83,6 +83,12 @@ jobs:
 ##                                            "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
 workflows:
   version: 2
+  machine:
+    node:
+      version: 6.2.0
+    environment:
+      PROJECT_NAME: lokalise-plugin
+      CIRCLE_ARTIFACTS: ./build/distributions
   build_and_test:
     jobs:
       - build:
