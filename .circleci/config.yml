@@ -55,7 +55,7 @@ jobs:
 #              name: Chmod permissions
 #              command: chmod +x ./gradlew
         - attach_workspace:
-              at: /artifactscom/github/likandr/lokalise-plugin
+              at: /artifacts/com/github/likandr
         - run:
               name: Login
               command: ./gradlew login
