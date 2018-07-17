@@ -52,12 +52,8 @@ jobs:
         environment:
             PROJECT_NAME: lokalise-plugin
             CIRCLE_ARTIFACTS: ./build/distributions
-      dependencies:
-        pre:
-          - go get github.com/aktau/github-release
-          - npm install github-release-notes -g
-      deployment:
-        release:
+      steps:
+        - run:
           tag: /v[0-9]+(\.[0-9]+)*/
           commands:
             - zip -r $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip dist/*
@@ -99,6 +95,13 @@ workflows:
             tags:
               only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
+          environment:
+              PROJECT_NAME: lokalise-plugin
+              CIRCLE_ARTIFACTS: ./build/distributions
+          dependencies:
+             pre:
+                - go get github.com/aktau/github-release
+                - npm install github-release-notes -g
           requires:
             - build
           filters:
