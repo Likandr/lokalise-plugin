@@ -45,7 +45,7 @@ jobs:
             command: ./gradlew uploadArchives
         - store_artifacts:
              path: ./build/distributions
-             destination: ./out
+             destination: ./project/out
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
@@ -62,10 +62,10 @@ jobs:
 #          command: |
 #              echo 'export PATH=${CIRCLE_WORKING_DIRECTORY}/out/' >> $CIRCLE_ARTIFACTS
       - attach_workspace:
-          at: /out
+          at: /project/out
       - store_artifacts:
-          path: ./out
-          destination: ./out1
+          path: ./project/out
+          destination: ./project/out1
       - run:
           name: Publish Release on GitHub
           command: |
@@ -100,6 +100,7 @@ jobs:
 ##                                            "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
 workflows:
   version: 2
+  working_directory: ~/project
   build_and_test:
     jobs:
       - build:
