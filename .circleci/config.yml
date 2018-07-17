@@ -53,8 +53,8 @@ jobs:
         CIRCLE_ARTIFACTS: ./build/distributions
         VERSION: lokalise-plugin-$CIRCLE_TAG
     steps:
-      - run: go get github.com/aktau/github-release
-      - run: npm install github-release-notes -g
+#      - run: get github.com/aktau/github-release
+#      - run: npm install github-release-notes -g
       - run:
           name: Publish Release on GitHub
           command: |
