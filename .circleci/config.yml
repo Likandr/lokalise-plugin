@@ -3,36 +3,34 @@ workflows:
   build_and_test:
     jobs:
       - build:
-          filters:
-            tags:
-              only: /^\d+\.\d+\.\d+$/
+#          filters:
+#            tags:
+#              only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
           requires:
             - build
-          filters:
-            tags:
-              only: /^\d+\.\d+\.\d+$/
+#          filters:
+#            tags:
+#              only: /^\d+\.\d+\.\d+$/
 
 jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
-#    working_directory: /tmp
     environment:
         JVM_OPTS: -Xmx3200m
     steps:
         - checkout
-#        - restore_cache:
-#              key: jars-{{ checksum “build.gradle” }}-{{ checksum “app/build.gradle” }}
+        - restore_cache:
+              key: jars-{{ checksum “build.gradle” }}-{{ checksum “app/build.gradle” }}
         - run:
-            name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+            name: Chmod permissions
             command: chmod +x ./gradlew
         - run:
             name: Upload Archives
             command: ./gradlew uploadArchives
         - store_artifacts:
              path: ./build/distributions
-#             destination: ./artifacts/out
         - persist_to_workspace:
             root: build
             paths:
@@ -40,21 +38,14 @@ jobs:
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
-#    working_directory: /tmp
     environment:
         PROJECT_NAME: lokalise-plugin
-#        CIRCLE_ARTIFACTS: ${CIRCLE_WORKING_DIRECTORY}/out/
         VERSION: lokalise-plugin-$CIRCLE_TAG
     steps:
-#      - run: get github.com/aktau/github-release
-#      - run: npm install github-release-notes -g
-#      - run:
-#          name: Update PATH and Define Environment Variable at Runtime
-#          command: |
-#              echo 'export PATH=${CIRCLE_WORKING_DIRECTORY}/out/' >> $CIRCLE_ARTIFACTS
       - attach_workspace:
           at: /build
       - run:
           name: Publish Release on GitHub
           command: |
-              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /build/distributions
+              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
+              -delete ${PROJECT_NAME}-${CIRCLE_TAG} /build/distributions
