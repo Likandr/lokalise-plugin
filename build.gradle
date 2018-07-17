@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
         maven {
@@ -7,7 +6,6 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.10"
-//        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
@@ -18,18 +16,9 @@ apply plugin: 'maven'
 apply plugin: 'distribution'
 
 group 'com.github.likandr'
-version '1.3'
+version '1.0'
 
 sourceCompatibility = 1.8
-
-//configurations {
-////    deployerJars
-//    configurations.archives.with { artifacts.remove artifacts.find { it.archiveTask.is distZip } }
-//}
-
-//configurations.archives.with {
-//    artifacts.remove artifacts.find { it.archiveTask.is distZip }
-//}
 
 repositories {
     jcenter()
@@ -40,8 +29,6 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
 
-//    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
-
     testCompile(group: 'org.spockframework', name: 'spock-core', version: '1.0-groovy-2.4') {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
@@ -49,18 +36,9 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            repository(url: uri('artifacts'))
-//        }
-//    }
-//}
-
 uploadArchives {
     repositories {
         mavenDeployer {
-//            configuration = configurations.deployerJars
             repository(url: uri('artifacts'))
         }
     }
@@ -82,48 +60,21 @@ pluginBundle {
     mavenCoordinates {
         groupId = "com.github.likandr"
         artifactId = "lokalise-plugin"
-        version = "1.3"
+        version = "1.0"
     }
 }
-
-//task myJar(type: Jar)
-//
-//artifacts {
-//    archives myJar
-//}
 
 def distributionsCopySpec = copySpec {
     into("$name-$version") {
         into('lib') {
             from 'distribution'
-            include '*.jar' //copy the fat jar created by bootRepackage
+            include '*.jar'
         }
         from 'README.md'
-//        into('bin') {
-//            from 'bin' //custom start script based on startScripts task output
-//        }
     }
 }
 
-task fatJarZip(type: Zip/*, dependsOn: 'bootRepackage'*/) { with distributionsCopySpec }
-task fatJarTar(type: Tar/*, dependsOn: 'bootRepackage'*/) { with distributionsCopySpec }
+task fatJarZip(type: Zip) { with distributionsCopySpec }
+task fatJarTar(type: Tar) { with distributionsCopySpec }
 
 uploadArchives.dependsOn(fatJarZip, fatJarTar)
-
-//task tarz(type: Tar) {
-//    archiveName = 'lokalise-plugin.tar'
-//    into ('/'){
-//        from 'build/libs'
-//        include '*.war'
-//    }
-//
-//    into ('data/config'){
-//        from 'data/config'
-//        include '*.properties.*'
-//
-//    }
-//
-//    destinationDir  file('build/tar')
-//    extension 'tar'
-//    compression = Compression.GZIP
-//}
