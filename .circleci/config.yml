@@ -84,11 +84,11 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build:
+      - build
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
-      - publish-github-release:
+      - publish-github-release
           dependencies:
              pre:
                 - go get github.com/aktau/github-release
