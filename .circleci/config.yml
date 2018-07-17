@@ -90,9 +90,7 @@ workflows:
             tags:
               only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
-          machine:
-              node:
-                version: 6.2.0
+          machine: true
           requires:
             - build
           filters:
