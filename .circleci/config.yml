@@ -30,7 +30,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
-    working_directory: ~/tmp
+    working_directory: ./build/distributions
     environment:
         JVM_OPTS: -Xmx3200m
     steps:
@@ -44,14 +44,14 @@ jobs:
             name: Upload Archives
             command: ./gradlew uploadArchives
         - store_artifacts:
-             path: ./out
+             path: ./tmp
   publish-github-release:
     working_directory: ~/tmp
     docker:
       - image: cibuilds/github:0.10
     environment:
         PROJECT_NAME: lokalise-plugin
-        CIRCLE_ARTIFACTS: ./build/distributions
+        CIRCLE_ARTIFACTS: ./tmp
         VERSION: lokalise-plugin-$CIRCLE_TAG
     steps:
 #      - run: get github.com/aktau/github-release
@@ -59,7 +59,7 @@ jobs:
       - run:
           name: Publish Release on GitHub
           command: |
-              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./out
+              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./tmp
 
 
 #              VERSION=$(my-binary --version)
