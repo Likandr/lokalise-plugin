@@ -45,17 +45,17 @@ jobs:
             paths:
               - distributions
   publish-plugin-in-gradle:
-      docker:
-        - image: circleci/openjdk:8-jdk
-      steps:
-        - attach_workspace:
-            at: /build
-        - run:
-              name: Login
-              command: ./gradlew login
-        - run:
-              name: Publish plugin
-              command: ./gradlew publishPlugins
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - attach_workspace:
+          at: /build
+      - run:
+          name: Login
+          command: ./gradlew login
+      - run:
+          name: Publish plugin
+          command: ./gradlew publishPlugins
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
