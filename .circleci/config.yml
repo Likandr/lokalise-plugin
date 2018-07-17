@@ -34,11 +34,10 @@ jobs:
                 command: ./gradlew uploadArchives
             - store_artifacts:
                 path: ./artifacts/com/github/likandr/lokalise-plugin
-                destination: publish_data
             - persist_to_workspace:
-                root: publish_data
+                root: artifacts/com/github/likandr/lokalise-plugin
                 paths:
-                  - .*
+                  - lokalise-plugin
             - store_artifacts:
                  path: ./build/distributions
             - persist_to_workspace:
