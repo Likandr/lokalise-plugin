@@ -94,7 +94,7 @@ workflows:
                 - go get github.com/aktau/github-release
                 - npm install github-release-notes -g
           requires:
-            - build:
+            - build
           filters:
 #            branches:
 #              ignore: /.*/
