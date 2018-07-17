@@ -50,6 +50,7 @@ jobs:
           name: Update PATH and Define Environment Variable at Runtime
           command: |
               echo 'export PATH=${PROJECT_NAME}-v${CIRCLE_TAG}' >> $VERSION
+              source $VERSION
       - attach_workspace:
           at: /build
       - run:
