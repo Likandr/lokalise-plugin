@@ -33,9 +33,9 @@ jobs:
                 name: Upload Archives
                 command: ./gradlew uploadArchives
             - store_artifacts:
-                path: ./artifacts/com/github/likandr/lokalise-plugin
+                path: ./likandr/lokalise-plugin
             - persist_to_workspace:
-                root: artifacts/com/github/likandr
+                root: likandr
                 paths:
                   - lokalise-plugin
             - store_artifacts:
@@ -49,7 +49,7 @@ jobs:
         - image: circleci/openjdk:8-jdk
       steps:
         - attach_workspace:
-              at: /artifacts/com/github/likandr/lokalise-plugin
+              at: /likandr/lokalise-plugin
         - run:
               name: Login
               command: ./gradlew login
