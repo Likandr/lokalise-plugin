@@ -56,6 +56,5 @@ jobs:
       - run:
           name: Publish Release on GitHub
           command: |
-              VERSION=$(${PROJECT_NAME}-v${CIRCLE_TAG})
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-               -delete ${VERSION} ${DIR_ARTIFACTS}
+               -delete ${PROJECT_NAME}-v${CIRCLE_TAG} ${DIR_ARTIFACTS}
