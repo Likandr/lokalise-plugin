@@ -12,7 +12,6 @@ workflows:
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
-
 jobs:
   build:
     docker:
