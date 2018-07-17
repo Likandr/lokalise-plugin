@@ -52,11 +52,15 @@ jobs:
     working_directory: ~/project
     environment:
         PROJECT_NAME: lokalise-plugin
-        CIRCLE_ARTIFACTS: ${CIRCLE_WORKING_DIRECTORY}/out/
+#        CIRCLE_ARTIFACTS: ${CIRCLE_WORKING_DIRECTORY}/out/
         VERSION: lokalise-plugin-$CIRCLE_TAG
     steps:
 #      - run: get github.com/aktau/github-release
 #      - run: npm install github-release-notes -g
+      - run:
+          name: Update PATH and Define Environment Variable at Runtime
+          command: |
+              echo 'export PATH=${CIRCLE_WORKING_DIRECTORY}/out/' >> $CIRCLE_ARTIFACTS
       - run:
           name: Publish Release on GitHub
           command: |
