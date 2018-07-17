@@ -49,7 +49,7 @@ jobs:
         - image: circleci/openjdk:8-jdk
       steps:
         - attach_workspace:
-              at: /artifacts/com/github/likandr/lokalise-plugin
+              at: /artifacts/com
         - run:
               name: Login
               command: ./gradlew login
