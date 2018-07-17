@@ -83,12 +83,6 @@ jobs:
 ##                                            "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
 workflows:
   version: 2
-  machine:
-    node:
-      version: 6.2.0
-    environment:
-      PROJECT_NAME: lokalise-plugin
-      CIRCLE_ARTIFACTS: ./build/distributions
   build_and_test:
     jobs:
       - build:
@@ -96,6 +90,12 @@ workflows:
             tags:
               only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
+          machine:
+              node:
+                version: 6.2.0
+              environment:
+                PROJECT_NAME: lokalise-plugin
+                CIRCLE_ARTIFACTS: ./build/distributions
           requires:
             - build
           filters:
