@@ -49,7 +49,7 @@ jobs:
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
-#    working_directory: ~/code
+    working_directory: ~/project
     environment:
         PROJECT_NAME: lokalise-plugin
         CIRCLE_ARTIFACTS: ${CIRCLE_WORKING_DIRECTORY}/out/
