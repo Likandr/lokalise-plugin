@@ -45,4 +45,4 @@ jobs:
               CIRCLE_TAG: lokalise-plugin-1.3
           command: |
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-               -delete ${CIRCLE_TAG} /build/distributions
+               -delete lokalise-plugin-1.3 /build/distributions
