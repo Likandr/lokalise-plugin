@@ -52,10 +52,11 @@ jobs:
         PROJECT_NAME: lokalise-plugin
         CIRCLE_ARTIFACTS: ./build/distributions
     steps:
+      - run: go get github.com/aktau/github-release
+      - run: npm install github-release-notes -g
       - run:
-        tag: /v[0-9]+(\.[0-9]+)*/
-        commands:
-          - zip -r $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip dist/*- git config user.name $CIRCLE_PROJECT_USERNAME- gren --override --data-source=commits- github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag $CIRCLE_TAG--name $CIRCLE_PROJECT_REPONAME"."$CIRCLE_TAG"-build-"$CIRCLE_BUILD_NUM".zip"--file $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip
+          commands:
+            - zip -r $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip dist/*- git config user.name $CIRCLE_PROJECT_USERNAME- gren --override --data-source=commits- github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag $CIRCLE_TAG--name $CIRCLE_PROJECT_REPONAME"."$CIRCLE_TAG"-build-"$CIRCLE_BUILD_NUM".zip"--file $CIRCLE_ARTIFACTS/$PROJECT_NAME-$CIRCLE_TAG.zip
 #      docker:
 #            - image: cibuilds/github:0.10
 #      steps:
@@ -91,10 +92,9 @@ workflows:
       - publish-github-release:
           requires:
             - build
-#            - go get github.com/aktau/github-release
-#            - npm install github-release-notes -g
-          tags:
-            only: /^\d+\.\d+\.\d+$/
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
 
 #jobs:
 #  build:
