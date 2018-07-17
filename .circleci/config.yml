@@ -25,25 +25,25 @@ jobs:
     environment:
         JVM_OPTS: -Xmx3200m
     steps:
-            - checkout
-            - run:
-                name: Chmod permissions
-                command: chmod +x ./gradlew
-            - run:
-                name: Upload Archives
-                command: ./gradlew uploadArchives
-            - store_artifacts:
-                path: ./artifacts/com/github/likandr/lokalise-plugin
-            - persist_to_workspace:
-                root: artifacts/com/github/likandr/lokalise-plugin
-                paths:
-                  - lokalise-plugin
-            - store_artifacts:
-                 path: ./build/distributions
-            - persist_to_workspace:
-                root: build
-                paths:
-                  - distributions
+        - checkout
+        - run:
+            name: Chmod permissions
+            command: chmod +x ./gradlew
+        - run:
+            name: Upload Archives
+            command: ./gradlew uploadArchives
+        - store_artifacts:
+            path: ./artifacts/com/github/likandr/lokalise-plugin
+        - persist_to_workspace:
+            root: artifacts
+            paths:
+              - com/github/likandr/lokalise-plugin
+        - store_artifacts:
+             path: ./build/distributions
+        - persist_to_workspace:
+            root: build
+            paths:
+              - distributions
   publish-plugin-in-gradle:
       docker:
         - image: circleci/openjdk:8-jdk
