@@ -1,6 +1,6 @@
 workflows:
   version: 2
-  build_and_test:
+  build_publish_release:
     jobs:
       - build:
           filters:
@@ -32,6 +32,9 @@ jobs:
         - run:
             name: Upload Archives
             command: ./gradlew uploadArchives
+        - persist_to_workspace:
+            root: artifacts
+            paths:  .
         - store_artifacts:
              path: ./build/distributions
         - persist_to_workspace:
@@ -48,6 +51,8 @@ jobs:
 #        - run:
 #              name: Chmod permissions
 #              command: chmod +x ./gradlew
+        - attach_workspace:
+                  at: /artifacts
         - run:
               name: Login
               command: ./gradlew login
