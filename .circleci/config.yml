@@ -89,17 +89,12 @@ workflows:
             tags:
               only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
-          dependencies:
-             pre:
-                - go get github.com/aktau/github-release
-                - npm install github-release-notes -g
           requires:
             - build
-          filters:
-#            branches:
-#              ignore: /.*/
-            tags:
-              only: /^\d+\.\d+\.\d+$/
+            - go get github.com/aktau/github-release
+            - npm install github-release-notes -g
+          tags:
+            only: /^\d+\.\d+\.\d+$/
 
 #jobs:
 #  build:
