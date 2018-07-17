@@ -9,9 +9,9 @@ workflows:
       - publish-github-release:
           requires:
             - build
-#          filters:
-#            tags:
-#              only: /^\d+\.\d+\.\d+$/
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
 
 jobs:
   build:
