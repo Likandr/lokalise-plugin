@@ -48,4 +48,4 @@ jobs:
           name: Publish Release on GitHub
           command: |
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-              -delete ${PROJECT_NAME}-v${CIRCLE_TAG} /build/distributions
+              -delete ${PROJECT_NAME}-'v'${CIRCLE_TAG} /build/distributions
