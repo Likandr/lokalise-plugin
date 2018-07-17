@@ -35,9 +35,9 @@ jobs:
         - store_artifacts:
             path: artifacts/com/github/likandr/lokalise-plugin
         - persist_to_workspace:
-            root: com/github/likandr/lokalise-plugin
+            root: com/github/likandr
             paths:
-              - *
+              - lokalise-plugin
         - store_artifacts:
              path: ./build/distributions
         - persist_to_workspace:
