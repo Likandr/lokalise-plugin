@@ -42,8 +42,7 @@ jobs:
       - run:
           name: Publish Release on GitHub
           environment:
-            CIRCLE_TAG: lokalise-plugin-1.3
-            DIR_ARTIFACTS: /build/distributions
+              CIRCLE_TAG: lokalise-plugin-1.3
           command: |
               ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}
-               -delete ${CIRCLE_TAG} ${DIR_ARTIFACTS}
+               -delete ${CIRCLE_TAG} /build/distributions
