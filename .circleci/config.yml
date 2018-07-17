@@ -6,15 +6,15 @@ workflows:
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
-#      - publish-plugin-in-gradle:
-#          requires:
-#            - build
-#          filters:
-#            tags:
-#              only: /^\d+\.\d+\.\d+$/
+      - publish-plugin-in-gradle:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
           requires:
-            - build #publish-plugin-in-gradle
+            - publish-plugin-in-gradle
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
@@ -44,18 +44,18 @@ jobs:
             root: build
             paths:
               - distributions
-#  publish-plugin-in-gradle:
-#      docker:
-#        - image: circleci/openjdk:8-jdk
-#      steps:
-#        - attach_workspace:
-#            at: /build
-#        - run:
-#              name: Login
-#              command: ./gradlew login
-#        - run:
-#              name: Publish plugin
-#              command: ./gradlew publishPlugins
+  publish-plugin-in-gradle:
+      docker:
+        - image: circleci/openjdk:8-jdk
+      steps:
+        - attach_workspace:
+            at: /build
+        - run:
+              name: Login
+              command: ./gradlew login
+        - run:
+              name: Publish plugin
+              command: ./gradlew publishPlugins
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
