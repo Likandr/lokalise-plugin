@@ -6,12 +6,12 @@ workflows:
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
-      - publish-plugin-in-gradle:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /^\d+\.\d+\.\d+$/
+#      - publish-plugin-in-gradle:
+#          requires:
+#            - build
+#          filters:
+#            tags:
+#              only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
           requires:
             - publish-plugin-in-gradle
