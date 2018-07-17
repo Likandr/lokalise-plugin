@@ -100,7 +100,6 @@ jobs:
 ##                                            "https://uploads.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/assets/1"
 workflows:
   version: 2
-  working_directory: ~/project
   build_and_test:
     jobs:
       - build:
