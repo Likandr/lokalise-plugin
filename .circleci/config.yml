@@ -52,7 +52,7 @@ jobs:
 #    working_directory: ~/code
     environment:
         PROJECT_NAME: lokalise-plugin
-        CIRCLE_ARTIFACTS: ./out/
+        CIRCLE_ARTIFACTS: ${CIRCLE_WORKING_DIRECTORY}/out/
         VERSION: lokalise-plugin-$CIRCLE_TAG
     steps:
 #      - run: get github.com/aktau/github-release
