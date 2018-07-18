@@ -50,12 +50,12 @@ jobs:
     steps:
       - attach_workspace:
           at: /build
-      - run:
-          name: Login
-          command: ./gradlew login
+#      - run:
+#          name: Login
+#          command: ./gradlew login
       - run:
           name: Publish plugin
-          command: ./gradlew publishPlugins
+          command: ./gradlew login publishPlugins
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
