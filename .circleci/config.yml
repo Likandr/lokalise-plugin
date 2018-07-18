@@ -50,13 +50,13 @@ jobs:
       - image: circleci/openjdk:8-jdk
     steps:
       - attach_workspace:
-          at: ./build
-#      - run:
-#          name: Login
-#          command: ./gradlew login
+          at: ./artifacts/com/github/likandr/lokalise-plugin
+      - run:
+          name: Login
+          command: ./gradlew login
       - run:
           name: Publish plugin
-          command: ./gradlew login publishPlugins
+          command: ./gradlew publishPlugins
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
