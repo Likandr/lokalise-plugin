@@ -49,15 +49,15 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
-#      - restore_cache:
-#          paths:
-#            - ~/.gradle
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - restore_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}
       - attach_workspace:
           at: ./artifacts/com/github/likandr/lokalise-plugin
-      - run:
-          name: Chmod permissions
-          command: chmod +x ./gradlew
+#      - run:
+#          name: Chmod permissions
+#          command: chmod +x ./gradlew
       - run:
           name: Login
           command: ./gradlew login
