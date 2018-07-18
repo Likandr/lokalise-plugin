@@ -30,6 +30,10 @@ jobs:
         - run:
             name: Chmod permissions
             command: chmod +x ./gradlew
+        - save_cache:
+            paths:
+              - ~/.gradle
+            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
         - run:
             name: Upload Archives
             command: ./gradlew uploadArchives
