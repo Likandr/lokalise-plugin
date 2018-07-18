@@ -27,9 +27,9 @@ jobs:
         JVM_OPTS: -Xmx3200m
     steps:
         - checkout
-        - run:
-            name: Chmod permissions
-            command: chmod +x ./gradlew
+#        - run:
+#            name: Chmod permissions
+#            command: chmod +x ./gradlew
         - run:
             name: Upload Archives
             command: ./gradlew uploadArchives
@@ -49,6 +49,10 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
+      - restore_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - attach_workspace:
           at: ./artifacts/com/github/likandr/lokalise-plugin
       - run:
