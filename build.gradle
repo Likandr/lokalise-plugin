@@ -66,7 +66,7 @@ pluginBundle {
 
 def distributionsCopySpec = copySpec {
     into("$name-$version") {
-        into('lib') {
+        into('libs') {
             from 'distribution'
             include '*.jar'
         }

@@ -6,12 +6,6 @@ workflows:
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
-      - publish-plugin-in-gradle:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
           requires:
             - publish-plugin-in-gradle
@@ -30,44 +24,15 @@ jobs:
         - run:
             name: Chmod permissions
             command: chmod +x ./gradlew
-#        - save_cache:
-#            paths:
-#              - ~/.gradle
-#            key: jars-{{ checksum "build.gradle" }}
         - run:
             name: Upload Archives
             command: ./gradlew uploadArchives
-        - store_artifacts:
-            path: ./artifacts/com/github/likandr/lokalise-plugin
-        - persist_to_workspace:
-            root: artifacts
-            paths:
-              - com/github/likandr/lokalise-plugin
         - store_artifacts:
              path: ./build/distributions
         - persist_to_workspace:
             root: build
             paths:
               - distributions
-  publish-plugin-in-gradle:
-    docker:
-      - image: circleci/openjdk:8-jdk
-    steps:
-#      - restore_cache:
-#          paths:
-#            - ~/.gradle
-#          key: jars-{{ checksum "build.gradle" }}
-      - attach_workspace:
-          at: ./build/distributions
-#      - run:
-#          name: Chmod permissions
-#          command: chmod +x ./gradlew
-#      - run:
-#          name: Login
-#          command: ./gradlew login
-      - run:
-          name: Publish plugin
-          command: ./gradlew publishPlugins
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
