@@ -8,7 +8,7 @@ workflows:
               only: /^\d+\.\d+\.\d+$/
       - publish-github-release:
           requires:
-            - publish-plugin-in-gradle
+            - build
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
