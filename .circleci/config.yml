@@ -58,7 +58,7 @@ jobs:
 #            - ~/.gradle
 #          key: jars-{{ checksum "build.gradle" }}
       - attach_workspace:
-          at: /build/distributions
+          at: ./build/distributions
 #      - run:
 #          name: Chmod permissions
 #          command: chmod +x ./gradlew
