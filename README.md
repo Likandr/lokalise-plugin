@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/Likandr/lokalise-plugin.svg?style=svg)](https://circleci.com/gh/Likandr/lokalise-plugin) 
 ## Android gradle plugin for refresh localisation strings using lokalise.co
 This is a gradle plugin for android. Refresh (upload and download) localization files using lokalise.co
 
