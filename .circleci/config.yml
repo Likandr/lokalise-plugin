@@ -62,9 +62,9 @@ jobs:
 #      - run:
 #          name: Chmod permissions
 #          command: chmod +x ./gradlew
-      - run:
-          name: Login
-          command: ./gradlew login
+#      - run:
+#          name: Login
+#          command: ./gradlew login
       - run:
           name: Publish plugin
           command: ./gradlew publishPlugins
