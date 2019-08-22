@@ -1,5 +1,6 @@
 package com.likandr.gradle
 
+import com.likandr.gradle.config.DownloadConfig
 import com.likandr.gradle.tasks.DownloadStrings
 import com.likandr.gradle.tasks.RefreshStrings
 import com.likandr.gradle.tasks.UploadStrings
@@ -7,8 +8,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class LokalisePlugin implements Plugin<Project> {
-    @Override void apply(Project target) {
-        target.extensions.add("lokalise", LokalisePluginExtension)
+    @Override
+    void apply(Project target) {
+        target.extensions.create("lokalise", LokalisePluginExtension, target)
 
         target.afterEvaluate {
             def android = target.extensions.getByName("android")
@@ -31,6 +33,7 @@ class LokalisePlugin implements Plugin<Project> {
             def lokaliseDownload = target.tasks.create("downloadStrings", DownloadStrings) {
                 lokalise_token = extension.token
                 lokalise_id = extension.id
+                config = extension.downloadConfig
                 project = target
             }
             lokaliseDownload.group = "lokalise"

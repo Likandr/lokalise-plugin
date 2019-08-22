@@ -1,5 +1,6 @@
 package com.likandr.gradle.tasks
 
+import com.likandr.gradle.config.DownloadConfig
 import groovy.json.JsonSlurper
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -7,11 +8,16 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.TaskExecutionException
 
-class DownloadStrings  extends DefaultTask {
+class DownloadStrings extends DefaultTask {
     def separator = File.separator
-    @Input String lokalise_token
-    @Input String lokalise_id
-    @Input Project project
+    @Input
+    String lokalise_token
+    @Input
+    String lokalise_id
+    @Input
+    DownloadConfig config
+    @Input
+    Project project
 
     @TaskAction
     def handle() {
@@ -20,71 +26,64 @@ class DownloadStrings  extends DefaultTask {
         def nameTempLokaliseDir = "lokalise"
         def locoBuildDir = new File("$project.buildDir.path$separator$nameTempLokaliseDir")
         def zipPath = "$locoBuildDir${separator}lang-file.zip"
-        def dirForUnzipped = "$project.buildDir.path$separator$nameTempLokaliseDir${separator}unzipped"
 
-        def listOfPaths = project.fileTree("$dirRes").include("**/strings.xml").files.path
-        println listOfPaths
 
-        println "Sending request..."
-        def jsonSlurper = new JsonSlurper()
+        // https://lokalise.co/api2docs/curl/#transition-download-files-post
 
-        ///////
-//    def response = ['curl', '-X', 'POST', 'https://api.lokalise.co/api/project/export',
-//                    '-d', "api_token=" + lokalise_token,
-//                    '-d', "id=" + lokalise_id,
-//                    '-d', "type=xml"
-//    ].execute().text
-//    println response
-        ///////
+        // curl --request POST \
+        //  --url https://api.lokalise.co/api2/projects/{project_id}/files/download \
+        //  --header 'content-type: application/json' \
+        //  --header 'x-api-token: {project_api_token}' \
+        //  --data '{"format":"json","original_filenames":true}'
 
-        def urlString = "https://api.lokalise.co/api/project/export"
-        def queryString = "api_token=${lokalise_token}&id=${lokalise_id}&type=xml"
-        def url = new URL(urlString)
+        def url = new URL("https://api.lokalise.co/api2/projects/${lokalise_id}/files/download")
         def connection = url.openConnection()
         connection.setRequestMethod("POST")
+        connection.addRequestProperty("content-type", "application/json")
+        connection.addRequestProperty("x-api-token", lokalise_token)
         connection.doOutput = true
 
+        def queryString = """{
+                |"format": "xml", 
+                |"original_filenames": ${config.originalFilenames},
+                |"directory_prefix": "values-%LANG_ISO%",
+                |"export_sort": "${config.order.value}",
+                |"export_empty_as": "${config.emptyTranslationStrategy.value}"
+                |}""".stripMargin()
+
+        println "Sending request\n\t$queryString"
         def writer = new OutputStreamWriter(connection.outputStream)
         writer.write(queryString)
         writer.flush()
         writer.close()
         connection.connect()
 
-        String response = connection.content.text
-        println response
-
-        def langsJson = jsonSlurper.parseText(response)
-        String filePathUrl = langsJson.bundle.full_file
-
-        if (langsJson.response.code != "200") {
+        if (connection.getResponseCode() != 200) {
             throw new IllegalStateException(
                     "An error occurred while trying to export from lokalise API: \n\n" +
-                            langsJson.toString()
+                            connection.errorStream.text
             )
-        } else {
-            println "Response code 200: " + filePathUrl
         }
 
+        String response = connection.inputStream.text
+
+        println "got response\n\t$response"
+        def responseJson = new JsonSlurper().parseText(response)
+        String bundleUrl = responseJson.bundle_url
+
+        println "Create temp dirs:\n\t$locoBuildDir"
         locoBuildDir.mkdirs()
-        println "Create temp dirs:"
-        println locoBuildDir
 
-        println dirForUnzipped
-        def unzippedDir = new File(dirForUnzipped)
-        unzippedDir.mkdirs()
+        println "Start download bundle: $bundleUrl"
+        saveUrlContentToFile(zipPath, bundleUrl)
 
-        println "Start download zip file..."
-        println zipPath
-        saveUrlContentToFile(zipPath, filePathUrl)
-
-        println "Unzipping downloaded file into res folder..."
+        println "Unzipping downloaded bundle into res folder ($dirRes.path)..."
         unzipReceivedZipFile(zipPath, dirRes)
-
-        println "Move unzipped files to res dir..."
-        copyToRes(dirForUnzipped, dirRes)
 
         println "Delete temp dirs for zip file."
         locoBuildDir.deleteDir()
+
+        println "Done."
     }
 
     private void saveUrlContentToFile(String zipPath, String filePathUrl) {

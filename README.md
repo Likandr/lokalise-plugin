@@ -34,6 +34,20 @@ dependencies {
 lokalise {
     id "XXXXXXXXXXXXXXXXXXXXXX.XXXXXXXX"
     token "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+    // optional: you can also specify additional options for use during downloading the translations
+    downloadConfig {
+        // all values here have their default value as present in this snippet
+
+        // Enable to use original filenames/formats. If set to false all keys will be export to a single file per language.
+        originalFilenames = false
+
+        // Export key sort mode
+        order = "first_added" //one of: first_added, last_added, last_updated, a_z, z_a
+
+        // Select how you would like empty translations to be exported. Allowed values are empty to keep empty, base to replace with the base language value, or skip to omit
+        emptyTranslationStrategy = "skip" //one of: empty, base, skip
+    }
 }
 
 //if need autoupdate strings before build uncomment the following line[1]: 
